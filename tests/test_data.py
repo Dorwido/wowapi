@@ -25,11 +25,11 @@ class Test_GetData(unittest.TestCase):
     def test_get_realm(self):
         realm = wowapi.get_realm('eu')
         self.assertGreater(len(realm['data']['realms']),1)
-        self.a
+       
 
     def test_get_auctions(self):
         auctions = wowapi.get_auctions('eu','Defias Brotherhood')
-        self.assertEqual(len(auctions),4)
+        self.assertEqual(len(auctions['data']),4)
 
     def test_get_arena_ladder_team(self):
         arena_ladder = wowapi.get_arena_ladder('eu','Blackout','2v2',1)

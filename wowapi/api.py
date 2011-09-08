@@ -203,7 +203,8 @@ class WoWApi():
         """
         data = self._get_data(region,datatypes['auction']['path'] % (quote(realm)),None,lastmodified,lang)
         request = Request(data['data']['files'][0]['url'], None, {'Accept-Encoding': 'gzip'})
-        return self._decode_response(self._do_request(request))
+
+        return {'lastmodified': data['lastmodified'],'data':self._decode_response(self._do_request(request))}
 
     def get_arena_team(self,region,realm,teamsize,teamname,lastmodified=None,lang=None):
         """
