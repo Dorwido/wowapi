@@ -1,7 +1,10 @@
 from urllib2 import Request, urlopen, URLError,quote
 import gzip
 import StringIO
-import json
+try:
+    import simplejson as json
+except ImportError:
+    import json
 import datetime
 import base64
 import hmac
