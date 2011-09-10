@@ -43,7 +43,7 @@ regions = {
          ]
         },
     'cn' : {
-        'domain':'battlenet.com.cn',
+        'domain':'www.battlenet.com.cn',
          'locales' : [
              'zh_CN'
          ]
@@ -116,7 +116,7 @@ class WoWApi():
         if 'content-encoding' in response.info() and response.info()['content-encoding'] == 'gzip':
  	        response = gzip.GzipFile(fileobj=StringIO.StringIO(response.read()))
         try:
-            data = json.loads(response.read())
+            data = json.loads(unicode(response.read(),'UTF-8'))
         except json.JSONDecodeError:
             raise APIError('Non-JSON Response')
         return data
