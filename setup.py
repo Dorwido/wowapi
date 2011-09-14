@@ -6,6 +6,7 @@ setup(name='wowapi',
      author='Dorwido',
      author_email='darkz@gmx.de',
      url='https://github.com/Dorwido/wowapi',
+	 license='MIT',
      test_suite='tests',
      packages=find_packages()
 )
