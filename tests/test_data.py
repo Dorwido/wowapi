@@ -58,3 +58,14 @@ class Test_GetData(unittest.TestCase):
         item_classes = wowapi.get_item_classes('eu')
         self.assertGreater(len(item_classes['data']['classes']),1)
 
+    def test_get_quest (self):
+        quest_info = wowapi.get_quest('eu',25)
+        self.assertEqual(quest_info['data']['id'],25)
+
+    def test_get_achievements_character(self):
+        char_achievements = wowapi.get_achievements_character('eu')
+        self.assertGreater(len(char_achievements['data']['achievements']),1)
+
+    def test_get_achievements_guild(self):
+        guild_achievements = wowapi.get_achievements_guild('eu')
+        self.assertGreater(len(guild_achievements['data']['achievements']),1)

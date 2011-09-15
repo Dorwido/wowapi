@@ -90,6 +90,15 @@ datatypes = {
     },
     'item_classes':{
         'path':'data/item/classes'
+    },
+    'achievements_character':{
+        'path':'data/character/achievements'
+    },
+    'achievements_guild':{
+        'path':'data/guild/achievements'
+    },
+    'quest':{
+        'path':'quest/%d'
     }
 }
 
@@ -326,3 +335,37 @@ class WoWApi():
         return self._get_data(region,datatypes['item_classes']['path'],None,lastmodified,lang)
 
     
+    def get_quest(self,region,questid,lastmodified=None,lang=None):
+        """
+        Get infos about an quest
+
+        | ``Example:``
+        ::
+
+            get_quest('eu',25)
+        """
+        if not int(questid):
+            raise ValueError('Quest id must be a integer')
+        return self._get_data(region,datatypes['quest']['path'] % (questid),None,lastmodified,lang)
+
+    def get_achievements_character(self,region,lastmodified=None,lang=None):
+        """
+        Get all character achievements which exists with name,description etc
+
+        | ``Example:``
+        ::
+
+            get_achievements_character('eu',None,'en_GB')
+        """
+        return self._get_data(region,datatypes['achievements_character']['path'],None,lastmodified,lang)
+
+    def get_achievements_guild(self,region,lastmodified=None,lang=None):
+        """
+        Get all guild achievements which exists with name,description etc
+
+        | ``Example:``
+        ::
+
+            get_achievements_guild('eu',None,'fr_FR')
+        """
+        return self._get_data(region,datatypes['achievements_guild']['path'],None,lastmodified,lang)
