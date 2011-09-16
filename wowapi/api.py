@@ -142,6 +142,12 @@ class WoWApi():
                     raise NotModified
                 elif e.code == 404:
                     raise NotFound
+                elif e.code == 500:
+                    error_response = self._decode_response(e)
+                    if error_response['reason']:
+                        raise APIError(error_response['reason'])
+                    else:
+                        raise APIError(e.code)
                 else:
                     raise APIError(e.code)
         else:
@@ -337,6 +343,8 @@ class WoWApi():
     
     def get_quest(self,region,questid,lastmodified=None,lang=None):
         """
+        .. versionadded:: 0.2.3
+
         Get infos about an quest
 
         | ``Example:``
@@ -350,6 +358,8 @@ class WoWApi():
 
     def get_achievements_character(self,region,lastmodified=None,lang=None):
         """
+        .. versionadded:: 0.2.3
+
         Get all character achievements which exists with name,description etc
 
         | ``Example:``
@@ -361,6 +371,8 @@ class WoWApi():
 
     def get_achievements_guild(self,region,lastmodified=None,lang=None):
         """
+        .. versionadded:: 0.2.3
+
         Get all guild achievements which exists with name,description etc
 
         | ``Example:``
