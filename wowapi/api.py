@@ -136,20 +136,20 @@ class WoWApi():
             response = urlopen(request)
         except URLError, e:
             if hasattr(e, 'reason'):
-                raise APIError(e.reason)
+                raise APIError(e.reason,request.get_full_url())
             elif hasattr(e, 'code'):
                 if e.code == 304:
-                    raise NotModified
+                    raise NotModified(request.get_full_url())
                 elif e.code == 404:
-                    raise NotFound
+                    raise NotFound(request.get_full_url())
                 elif e.code == 500:
                     error_response = self._decode_response(e)
                     if error_response['reason']:
-                        raise APIError(error_response['reason'])
+                        raise APIError(error_response['reason'],request.get_full_url())
                     else:
-                        raise APIError(e.code)
+                        raise APIError(e.code,request.get_full_url())
                 else:
-                    raise APIError(e.code)
+                    raise APIError(e.code,request.get_full_url())
         else:
             return response
 
