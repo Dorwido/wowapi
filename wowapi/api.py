@@ -142,14 +142,12 @@ class WoWApi():
                     raise NotModified(request.get_full_url())
                 elif e.code == 404:
                     raise NotFound(request.get_full_url())
-                elif e.code == 500:
+                else:
                     error_response = self._decode_response(e)
                     if error_response['reason']:
-                        raise APIError(error_response['reason'],request.get_full_url())
+                        raise APIError(e.code,error_response['reason'],request.get_full_url())
                     else:
-                        raise APIError(e.code,request.get_full_url())
-                else:
-                    raise APIError(e.code,request.get_full_url())
+                        raise APIError(e.code,None,request.get_full_url())
         else:
             return response
 

@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name='wowapi',
-     version='0.2.5',
+     version='0.2.6',
      description='Python module to access the WoW Api',
      author='Dorwido',
      author_email='darkz@gmx.de',
