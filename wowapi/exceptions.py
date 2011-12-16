@@ -1,7 +1,10 @@
 class APIError(Exception):
     """
-    This is raised on all other http errors only with the error code, this will change in the future and
-    include the error message
+    .. versionadded:: 0.2.5
+
+
+    This is raised on all other http errors and will always return http error code, reason for fail
+    (if a reason is given otherwise None), url which failed
     """
     pass
 
