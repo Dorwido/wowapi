@@ -58,9 +58,13 @@ class Test_GetData(unittest.TestCase):
         item_classes = wowapi.get_item_classes('eu')
         self.assertGreater(len(item_classes['data']['classes']),1)
 
-    def test_get_quest (self):
+    def test_get_quest(self):
         quest_info = wowapi.get_quest('eu',25)
         self.assertEqual(quest_info['data']['id'],25)
+
+    def test_get_recipe (self):
+        recipe_info = wowapi.get_recipe('us',33994)
+        self.assertEqual(recipe_info['data']['id'],33994)
 
     def test_get_achievements_character(self):
         char_achievements = wowapi.get_achievements_character('eu')

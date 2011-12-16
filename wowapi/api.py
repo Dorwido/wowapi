@@ -99,6 +99,9 @@ datatypes = {
     },
     'quest':{
         'path':'quest/%d'
+    },
+    'recipe':{
+        'path':'recipe/%d'
     }
 }
 
@@ -353,6 +356,21 @@ class WoWApi():
         if not int(questid):
             raise ValueError('Quest id must be a integer')
         return self._get_data(region,datatypes['quest']['path'] % (questid),None,lastmodified,lang)
+
+    def get_recipe(self,region,recipeid,lastmodified=None,lang=None):
+        """
+        .. versionadded:: 0.3.0
+
+        Get infos about an recipe
+
+        | ``Example:``
+        ::
+
+            get_recipe('eu',33994)
+        """
+        if not int(recipeid):
+            raise ValueError('Recipe id must be a integer')
+        return self._get_data(region,datatypes['recipe']['path'] % (recipeid),None,lastmodified,lang)
 
     def get_achievements_character(self,region,lastmodified=None,lang=None):
         """
