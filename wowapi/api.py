@@ -73,8 +73,8 @@ datatypes = {
         'path' : 'arena/%s/%s/%s'
     },
     'arena_ladder' : {
-        'path' : 'pvp/arena/%s/%s',
-        'param' : 'size'
+        'path' : 'leaderboard/%s'
+
     },
     'character_races':{
         'path' : 'data/character/races'
@@ -102,7 +102,39 @@ datatypes = {
     },
     'recipe':{
         'path':'recipe/%d'
+    },
+    'achievement':{
+        'path':'achievement/%d'
+    },
+    'battlepet_ability':{
+        'path': 'battlePet/ability/%d'
+    },
+    'battlepet_species':{
+        'path' : 'battlePet/species/%d'
+    },
+    #'battlepet_stats':{
+     #   'path' : 'battlePet/stats/%d'
+    #},
+    'challenge_realm':{
+        'path' : 'challenge/%s'
+    },
+    'challenge_region':{
+        'path' : 'challenge/region'
+    },
+    'spell' : {
+        'path' : 'spell/%d'
+    },
+    'battlegroups' : {
+        'path' : 'data/battlegroups/'
+    },
+    'talents':{
+        'path' : 'data/talents'
+    },
+    'pet_types':{
+        'path' : 'data/pet/types'
     }
+
+
 }
 
 class WoWApi():
@@ -275,16 +307,18 @@ class WoWApi():
         """
         return self._get_data(region,datatypes['arena_team']['path'] % (quote(realm),teamsize,quote(teamname)),None,lastmodified,lang)
 
-    def get_arena_ladder(self,region,battlegroup,teamsize,howmany=None,lastmodified=None,lang=None):
+    def get_arena_ladder(self,region,teamsize,lastmodified=None,lang=None):
         """
-        Get the arena ladder of the specified battlegroup, optional with howmany you can define how many teams should be included
+        Get the arena/rated battlegroun ladder of the specified region
+
+        teamsize = "2v2" | "3v3" | "5v5" | "rbg"
 
         | ``Example:``
         ::
 
-            get_arena_ladder('eu','Blackout','5v5',100)
+            get_arena_ladder('eu','5v5')
         """
-        return self._get_data(region,datatypes['arena_ladder']['path'] % (quote(battlegroup),teamsize),[howmany],lastmodified,lang,'arena_ladder')
+        return self._get_data(region,datatypes['arena_ladder']['path'] % (teamsize),None,lastmodified,lang)
 
     def get_character_races(self,region,lastmodified=None,lang=None):
         """
@@ -397,3 +431,153 @@ class WoWApi():
             get_achievements_guild('eu',None,'fr_FR')
         """
         return self._get_data(region,datatypes['achievements_guild']['path'],None,lastmodified,lang)
+
+    def get_achievement(self,region,achievementid,lastmodified=None,lang=None):
+        """
+        .. versionadded:: 0.4.0
+
+        Get infos about an achievement
+
+        | ``Example:``
+        ::
+
+            get_achievement('eu',2144)
+        """
+        if not int(achievementid):
+            raise ValueError('Achievement id must be a integer')
+        return self._get_data(region,datatypes['achievement']['path'] % (achievementid),None,lastmodified,lang)
+
+    def get_battlepet_ability(self,region,battlepet_abilityid,lastmodified=None,lang=None):
+        """
+        .. versionadded:: 0.4.0
+
+        Get infos about an Battlepet ability
+
+        | ``Example:``
+        ::
+
+            get_battlepet_ability('eu',640)
+        """
+        if not int(battlepet_abilityid):
+            raise ValueError('Battlepet ability id must be a integer')
+        return self._get_data(region,datatypes['battlepet_ability']['path'] % (battlepet_abilityid),None,lastmodified,lang)
+
+    def get_battlepet_species(self,region,battlepet_speciesid,lastmodified=None,lang=None):
+        """
+        .. versionadded:: 0.4.0
+
+        Get infos about an Battlepet species
+
+        | ``Example:``
+        ::
+
+            get_battlepet_species('eu',258)
+        """
+        if not int(battlepet_speciesid):
+            raise ValueError('Battlepet species id must be a integer')
+        return self._get_data(region,datatypes['battlepet_species']['path'] % (battlepet_speciesid),None,lastmodified,lang)
+
+    #todo special case
+    #def get_battlepet_stats(self,region,battlepet_speciesid,params=None,lastmodified=None,lang=None):
+        """
+        .. versionadded:: 0.4.0
+        Get stats about an Battlepet, params is a array taking optional fields to consider
+
+        level default = 1 The Pet's level
+        breedId default = 3 The Pet's breed (can be retrieved from the character profile api)
+        qualityId default = 1 The Pet's quality (can be retrieved from the character profile api)
+
+        | ``Example:``
+        ::
+
+            get_character('eu',258,['level=25'])
+        """
+        #if not int(battlepet_speciesid):
+        #    raise ValueError('Battlepet species id must be a integer')
+        #return self._get_data(region,datatypes['battlepet_stats']['path'] % (battlepet_speciesid),params,lastmodified,lang,'character')
+
+    def get_challenge_realm(self,region,realm,lastmodified=None,lang=None):
+        """
+        .. versionadded:: 0.4.0
+
+        Get challenge realm ladder for an specific realm
+
+        | ``Example:``
+        ::
+
+            get_challenge_realm('eu','Doomhammer')
+        """
+
+        return self._get_data(region,datatypes['challenge_realm']['path'] % (quote(realm)),None,lastmodified,lang)
+
+    def get_challenge_region(self,region,lastmodified=None,lang=None):
+        """
+        .. versionadded:: 0.4.0
+
+        Get challenge region ladder for an specific region
+
+        | ``Example:``
+        ::
+
+            get_challenge_region('eu')
+        """
+
+        return self._get_data(region,datatypes['challenge_region']['path'],None,lastmodified,lang)
+
+    def get_spell(self,region,spellid,lastmodified=None,lang=None):
+        """
+        .. versionadded:: 0.4.0
+
+        Get infos about an spell
+
+        | ``Example:``
+        ::
+
+            get_spell('eu',8056)
+        """
+        if not int(spellid):
+            raise ValueError('Spell id must be a integer')
+        return self._get_data(region,datatypes['spell']['path'] % (spellid),None,lastmodified,lang)
+
+    def get_battlegroups(self,region,lastmodified=None,lang=None):
+        """
+        .. versionadded:: 0.4.0
+
+        Get all battlegroups for an region
+
+        | ``Example:``
+        ::
+
+            get_battlegroups('eu')
+        """
+        return self._get_data(region,datatypes['battlegroups']['path'],None,lastmodified,lang)
+
+    def get_talents(self,region,lastmodified=None,lang=None):
+        """
+        .. versionadded:: 0.4.0
+
+        The talents data API provides a list of talents, specs and glyphs for each class.
+
+        | ``Example:``
+        ::
+
+            get_talents('eu')
+        """
+        return self._get_data(region,datatypes['talents']['path'],None,lastmodified,lang)
+
+    def get_pet_types(self,region,lastmodified=None,lang=None):
+        """
+        .. versionadded:: 0.4.0
+
+        The different bat pet types (including what they are strong and weak against)
+
+        | ``Example:``
+        ::
+
+            get_pet_types('eu')
+        """
+        return self._get_data(region,datatypes['pet_types']['path'],None,lastmodified,lang)
+
+
+
+

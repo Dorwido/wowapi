@@ -32,10 +32,9 @@ class Test_GetData(unittest.TestCase):
         self.assertEqual(len(auctions['data']),4)
 
     def test_get_arena_ladder_team(self):
-        arena_ladder = wowapi.get_arena_ladder('eu','Blackout','2v2',1)
-        self.assertEqual(len(arena_ladder['data']['arenateam']),1)
-        arena_team = wowapi.get_arena_team('eu',arena_ladder['data']['arenateam'][0]['realm'],'2v2',arena_ladder['data']['arenateam'][0]['name'])
-        self.assertEqual(arena_team['data']['name'],arena_ladder['data']['arenateam'][0]['name'])
+        arena_ladder = wowapi.get_arena_ladder('eu','2v2')
+        self.assertGreater(len(arena_ladder['data']['rows']),1)
+
 
 
     def test_get_character_races (self):
@@ -73,3 +72,45 @@ class Test_GetData(unittest.TestCase):
     def test_get_achievements_guild(self):
         guild_achievements = wowapi.get_achievements_guild('eu')
         self.assertGreater(len(guild_achievements['data']['achievements']),1)
+
+    def test_get_achievement (self):
+        achievement_info = wowapi.get_achievement('us',2144)
+        self.assertEqual(achievement_info['data']['id'],2144)
+
+    def test_get_battlepet_ability (self):
+        battlepet_ability_info = wowapi.get_battlepet_ability('us',640)
+        self.assertEqual(battlepet_ability_info['data']['id'],640)
+
+    def test_get_battlepet_species (self):
+        battlepet_species_info = wowapi.get_battlepet_species('us',258)
+        self.assertEqual(battlepet_species_info['data']['speciesId'],258)
+
+    #def test_get_battlepet_stats (self):
+    #    battlepet_stats_info = wowapi.get_battlepet_stats('us',258,['level=25'])
+    #    self.assertEqual(battlepet_stats_info['data']['level'],25)
+
+    def test_get_challenge_realm(self):
+        challenge_realm_info = wowapi.get_challenge_realm('eu','Doomhammer')
+        self.assertGreater(len(challenge_realm_info['data']['challenge']),1)
+
+    def test_get_challenge_region(self):
+        challenge_region_info = wowapi.get_challenge_region('eu')
+        self.assertGreater(len(challenge_region_info['data']['challenge']),1)
+
+    def test_get_spell (self):
+        spell_info = wowapi.get_spell('us',8056)
+        self.assertEqual(spell_info['data']['id'],8056)
+
+    def test_get_battlegroups (self):
+        battlegroups = wowapi.get_battlegroups('eu')
+        self.assertGreater(len(battlegroups['data']['battlegroups']),1)
+
+
+    def test_get_talents (self):
+        talents = wowapi.get_talents('eu')
+        self.assertGreater(len(talents['data']),1)
+
+
+    def test_get_pet_types (self):
+        pet_types = wowapi.get_pet_types('eu')
+        self.assertGreater(len(pet_types['data']['petTypes']),1)
