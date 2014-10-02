@@ -10,8 +10,8 @@ wowapi = WoWApi()
 class Test_GetData(unittest.TestCase):
 
     def test_get_character(self):
-        character = wowapi.get_character('eu','Doomhammer','Thetotemlord')
-        self.assertEqual(character['data']['name'],'Thetotemlord')
+        character = wowapi.get_character('eu','Atle','Atle')
+        self.assertEqual(character['data']['name'],'Dorwido')
 
 
     def test_get_item(self):

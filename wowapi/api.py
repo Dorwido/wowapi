@@ -6,48 +6,51 @@ try:
 except ImportError:
     import json
 import datetime
-import base64
-import hmac
-import hashlib
 from .exceptions import APIError,NotModified,NotFound
 from .utilities import parse_http_datetime,http_datetime
 
 regions = {
     'us' : {
-        'domain':'us.battle.net',
+        'domain':'us.api.battle.net',
          'locales' : [
              'en_US',
-             'es_MX'
+             'es_MX',
+             'pt_BR'
          ]
         },
     'eu' : {
-        'domain':'eu.battle.net',
+        'domain':'eu.api.battle.net',
          'locales' : [
              'en_GB',
              'es_ES',
              'fr_FR',
              'ru_RU',
-             'de_DE'
+             'de_DE',
+             'it_IT',
+             'pl_PL',
+             'pt_PT'
          ]
         },
     'kr' : {
-        'domain':'kr.battle.net',
+        'domain':'kr.api.battle.net',
          'locales' : [
              'ko_KR'
          ]
         },
     'tw' : {
-        'domain':'tw.battle.net',
+        'domain':'tw.api.battle.net',
          'locales' : [
              'zh_TW'
          ]
         },
-    'cn' : {
-        'domain':'www.battlenet.com.cn',
-         'locales' : [
-             'zh_CN'
-         ]
-        },
+
+    #'cn' : {
+    #    'domain':'www.battlenet.com.cn',
+    #     'locales' : [
+    #         'zh_CN'
+    #     ]
+     #   },
+        #not avail currently
 }
 
 datatypes = {
@@ -140,16 +143,9 @@ datatypes = {
 class WoWApi():
     
 
-    def __init__(self,privatekey=None,publickey=None,ssl=None):
-        self.privkey = privatekey
-        self.pubkey = publickey
-        if ssl is None:
-            if self.privkey and self.pubkey:
-                self.ssl = True
-            else:
-                self.ssl = False
-        else:
-            self.ssl = ssl
+    def __init__(self,apikey=None):
+        self.apikey = apikey
+
         
 
 
@@ -186,41 +182,29 @@ class WoWApi():
         else:
             return response
 
-    def _sign_request(self,path,date):
-        stringtosign = "GET\n"+date+"\n"+path+"\n"
-        hash = hmac.new(self.privkey, stringtosign, hashlib.sha1).digest()
-        return base64.encodestring(hash)
+
 
     def _get_data(self,region,data,params=None,lastmodified=None,lang=None,datatype=None):
         if region not in regions:
             raise ValueError('Region not found')
         if lang and lang not in regions[region]['locales']:
             raise ValueError('Locales not valid for current region')
-        httpdate = http_datetime(datetime.datetime.utcnow())
-        signature = None
-        if self.privkey and self.pubkey:
-            signature =  self._sign_request('/api/wow/'+data,httpdate)
+        data += '?apikey='+self.apikey
                    
         if params:
-            data += '?'+datatypes[datatype]['param']+'='+','.join(map(str, params))
+            data += '&'+datatypes[datatype]['param']+'='+','.join(map(str, params))
 
-        if lang and params:
+        if lang:
             data+='&locale='+lang
-        elif lang:
-            data+='?locale='+lang
-        if self.ssl:
-            url = 'https://'
-        else:
-            url = 'http://'
 
-        url += regions[region]['domain']+'/api/wow/'+data
+        url = 'https://'
+        httpdate = http_datetime(datetime.datetime.utcnow())
+
+        url += regions[region]['domain']+'/wow/'+data
         header = {
             'Accept-Encoding': 'gzip',
             'Date' : httpdate
         }
-        if signature:
-            header['Authorization'] = 'BNET '+self.pubkey+':'+signature
-
 
         if lastmodified:
             header['If-Modified-Since'] = http_datetime(lastmodified)

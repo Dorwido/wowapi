@@ -17,6 +17,10 @@ class Test_Locales(unittest.TestCase):
         item = wowapi.get_item('us',25,None,'es_MX')
         self.assertEqual(item['data']['name'],'Espada corta desgastada')
 
+    def test_locale_pt_BR(self):
+        item = wowapi.get_item('us',25,None,'pt_BR')
+        self.assertEqual(item['data']['name'],'Espadim Usado')
+
     def test_locale_en_GB(self):
         item = wowapi.get_item('eu',25,None,'en_GB')
         self.assertEqual(item['data']['name'],'Worn Shortsword')
@@ -37,6 +41,19 @@ class Test_Locales(unittest.TestCase):
         item = wowapi.get_item('eu',25,None,'de_DE')
         self.assertEqual(item['data']['name'],'Abgenutztes Kurzschwert')
 
+    def test_locale_it_IT(self):
+        item = wowapi.get_item('eu',25,None,'it_IT')
+        self.assertEqual(item['data']['name'],'Spada Corta Consunta')
+
+    def test_locale_pl_PL(self):
+        item = wowapi.get_item('eu',25,None,'pl_PL')
+        self.assertEqual(item['data']['name'],'Worn Shortsword')
+
+    def test_locale_pt_PT(self):
+        item = wowapi.get_item('eu',25,None,'pt_PT')
+        self.assertEqual(item['data']['name'],'Espadim Usado')
+
+
     def test_locale_ko_KR(self):
         item = wowapi.get_item('kr',25,None,'ko_KR')
         self.assertEqual(item['data']['name'],u'낡은 쇼트소드')
@@ -45,7 +62,7 @@ class Test_Locales(unittest.TestCase):
         item = wowapi.get_item('tw',25,None,'zh_TW')
         self.assertEqual(item['data']['name'],u'破損的短劍')
 
-    def test_locale_zh_CN(self):
-        item = wowapi.get_item('cn',25,None,'zh_CN')
-        self.assertEqual(item['data']['name'],u'破损的短剑')
+    #def test_locale_zh_CN(self):
+    #    item = wowapi.get_item('cn',25,None,'zh_CN')
+    #    self.assertEqual(item['data']['name'],u'破损的短剑')
 

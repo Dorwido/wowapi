@@ -24,6 +24,6 @@ class Test_Regions(unittest.TestCase):
         realm = wowapi.get_realm('tw')
         self.assertGreater(len(realm['data']['realms']),1)
 
-    def test_region_cn(self):
-        realm = wowapi.get_realm('cn')
-        self.assertGreater(len(realm['data']['realms']),1)
+    #def test_region_cn(self):
+    #    realm = wowapi.get_realm('cn')
+    #    self.assertGreater(len(realm['data']['realms']),1)
